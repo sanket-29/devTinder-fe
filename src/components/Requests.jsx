@@ -11,24 +11,20 @@ const Requests = () => {
 
   const dispatch = useDispatch();
 
+  const reviewRequest = async (status, _id) => {
 
+    try {
 
-  const reviewRequest = async(status, _id) => {
+      const res = await axios.post(BASE_URL + '/request/review/' + status + '/' + _id, {}, {
+        withCredentials: true
+      });
 
-      try {
-        
-        const res = await axios.post(BASE_URL + '/request/review/'+status + '/' + _id, {}, {
-          withCredentials: true
-        });
+      dispatch(removeRequest(_id));
 
-        dispatch(removeRequest(_id));
+    } catch (err) {
 
-      } catch (err) {
-
-        console.error("Error reviewing request:", err);
-      }
-
-
+      console.error("Error reviewing request:", err);
+    }
 
   };
 
@@ -76,7 +72,6 @@ const Requests = () => {
             <button className="btn btn-primary mx-2" onClick={() => reviewRequest('rejected', request._id)}>Reject</button>
             <button className="btn btn-secondary mx-2" onClick={() => reviewRequest('accepted', request._id)}>Accept</button>
           </div>
-
 
         </div>
       ))}
