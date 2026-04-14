@@ -1,7 +1,20 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { useState } from "react";
 const Premium = () => {
 
+const [isUserPremium, setIsUserPremium] = useState(false);
+  const verifyPremiumUser = async () =>{
+
+    try {
+      const res = await axios.get(`${BASE_URL}/payment/verify`, {}, {withCredentials: true});
+      if(res.data.isPremium){
+        setIsUserPremium(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const handleBuyClick = async (type) => {
     
     const order = await axios.post(`${BASE_URL}/payment/create`, {
@@ -25,6 +38,7 @@ const Premium = () => {
         theme: {
           color: '#F37254'
         },
+        handler: verifyPremiumUser,
       };
 
     const rzp = new window.Razorpay(options);
@@ -36,7 +50,9 @@ const Premium = () => {
 
 
 
-  return (
+  return isUserPremium? (
+    "You are already a premium user"
+  ):(
     <div className = "m-20">
       
 <div className="flex w-full justify-center items-center">
@@ -65,7 +81,7 @@ const Premium = () => {
 
 
     </div>
-  )
+  ) 
 }
 
 export default Premium
