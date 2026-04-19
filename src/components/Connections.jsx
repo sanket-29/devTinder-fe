@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from 'react-redux';
 import { addConnections } from '../utils/connectionSlice';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 const Connections = () => {
@@ -50,7 +51,15 @@ const Connections = () => {
             <h2 className="text-xl font-bold">{connection.firstName} {connection.lastName}</h2>
            {connection.age && connection.gender && <p>{connection.age}, {connection.gender}</p>}
            <p className="text-gray-600">{connection.about}</p>
+
+          
             </div>
+
+            <Link to={`/chat/${connection._id}`} className="btn btn-primary">
+            <button className="btn btn-primary mx-4">Chat</button>
+            
+            </Link>
+             
 
 
 
